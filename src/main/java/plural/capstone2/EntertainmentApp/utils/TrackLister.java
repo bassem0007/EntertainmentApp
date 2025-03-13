@@ -10,9 +10,9 @@ public class TrackLister {
             return "[]";
 
         StringBuffer sb = new StringBuffer("[");
-        for (Track track : tracks) {
-            sb.append(track.getTitle()).append(", ");
-        }
+//        for (Track track : tracks) {
+//            sb.append(track.getTitle()).append(", ");
+//        }
         return sb.toString();
     }
 }

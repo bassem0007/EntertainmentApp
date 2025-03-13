@@ -10,9 +10,9 @@ public class ArtistLister {
             return "[]";
 
         StringBuffer sb = new StringBuffer("[");
-        for (Artist artist : artists) {
-            sb.append(artist.getName()).append(", ");
-        }
+//        for (Artist artist : artists) {
+//            sb.append(artist.getName()).append(", ");
+//        }
         return sb.toString();
     }
 }

@@ -1,15 +1,18 @@
 package plural.capstone2.EntertainmentApp.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+
+import lombok.*;
+import org.springframework.data.annotation.Id;
 import plural.capstone2.EntertainmentApp.enums.Genre;
-import plural.capstone2.EntertainmentApp.utils.ArtistLister;
+//import plural.capstone2.EntertainmentApp.utils.ArtistLister;
+import plural.capstone2.EntertainmentApp.utils.TimeFormatter;
 
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 public class Track {
+
+    @Id
     private int id;
     private String title;
     private int durationSeconds;
@@ -32,9 +35,9 @@ public class Track {
         return "Track{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", durationSeconds=" + durationSeconds +
+                ", duration=" + TimeFormatter.formatTrackDurationInMinutesAndSeconds(durationSeconds) +
                 ", genre=" + genre +
-                ", artists=" + ArtistLister.listArtists(artists) +
+//                ", artists=" + ArtistLister.listArtists(artists) +
                 ", yearReleased=" + yearReleased +
                 ", beatsPerMinute=" + beatsPerMinute +
                 '}';

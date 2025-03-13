@@ -1,7 +1,7 @@
 package plural.capstone2.EntertainmentApp.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.data.annotation.Id;
 import plural.capstone2.EntertainmentApp.enums.ArtistType;
 import plural.capstone2.EntertainmentApp.enums.Genre;
 import plural.capstone2.EntertainmentApp.utils.TrackLister;
@@ -9,10 +9,10 @@ import plural.capstone2.EntertainmentApp.utils.TrackLister;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 public class Artist {
 
+    @Id
     private int id;
     private String name;
     private ArtistType artistType;
@@ -22,7 +22,7 @@ public class Artist {
     private int yearFounded;
     private List<Track> tracks;
 
-    public Artist(String name, ArtistType artistType, String biography, String nationality, int yearFounded) {
+    public Artist(@NonNull String name, ArtistType artistType, String biography, String nationality, int yearFounded) {
         this.name = name;
         this.artistType = artistType;
         this.genres = new ArrayList<>();

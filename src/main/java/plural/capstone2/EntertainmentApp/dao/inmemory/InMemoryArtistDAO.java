@@ -1,5 +1,6 @@
 package plural.capstone2.EntertainmentApp.dao.inmemory;
 
+import org.springframework.stereotype.Repository;
 import plural.capstone2.EntertainmentApp.dao.BaseDAO;
 import plural.capstone2.EntertainmentApp.domain.Artist;
 
@@ -10,10 +11,20 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Repository
 public class InMemoryArtistDAO implements BaseDAO<Artist> {
 
     private Map<Integer, Artist> artists = new ConcurrentHashMap<>();
     private AtomicInteger nextId = new AtomicInteger(1);
+
+    @Override
+    public Artist insert(Artist artist) {
+        int newId = nextId.getAndIncrement();
+        artist.setId(newId);
+        artists.put(newId, artist);
+
+        return artist;
+    }
 
     @Override
     public boolean update(Artist artist) {
@@ -23,15 +34,6 @@ public class InMemoryArtistDAO implements BaseDAO<Artist> {
     @Override
     public boolean delete(Artist artist) {
         return artists.remove(artist.getId()) !=null;
-    }
-
-    @Override
-    public Artist insert(Artist artist) {
-        int newId = nextId.getAndIncrement();
-        artist.setId(newId);
-        artists.put(newId, artist);
-
-        return artist;
     }
 
     @Override

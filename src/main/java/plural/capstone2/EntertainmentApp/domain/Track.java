@@ -5,6 +5,7 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import plural.capstone2.EntertainmentApp.enums.Genre;
 //import plural.capstone2.EntertainmentApp.utils.ArtistLister;
+import plural.capstone2.EntertainmentApp.utils.ArtistLister;
 import plural.capstone2.EntertainmentApp.utils.TimeFormatter;
 
 import java.util.List;
@@ -37,7 +38,7 @@ public class Track {
                 ", title='" + title + '\'' +
                 ", duration=" + TimeFormatter.formatTrackDurationInMinutesAndSeconds(durationSeconds) +
                 ", genre=" + genre +
-//                ", artists=" + ArtistLister.listArtists(artists) +
+                ", artists=" + ArtistLister.listArtists(artists) +
                 ", yearReleased=" + yearReleased +
                 ", beatsPerMinute=" + beatsPerMinute +
                 '}';

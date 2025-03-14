@@ -9,10 +9,11 @@ public class TrackLister {
         if (tracks == null || tracks.isEmpty())
             return "[]";
 
-        StringBuffer sb = new StringBuffer("[");
-//        for (Track track : tracks) {
-//            sb.append(track.getTitle()).append(", ");
-//        }
-        return sb.toString();
+        StringBuffer trackList = new StringBuffer("[");
+        for (Track track : tracks) {
+            trackList.append(track.getTitle()).append(", ");
+        }
+        trackList.replace(trackList.length() -2, trackList.length(), "]");
+        return trackList.toString();
     }
 }

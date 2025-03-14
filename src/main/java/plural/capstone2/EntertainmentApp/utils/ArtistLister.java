@@ -9,10 +9,11 @@ public class ArtistLister {
         if (artists == null || artists.isEmpty())
             return "[]";
 
-        StringBuffer sb = new StringBuffer("[");
-//        for (Artist artist : artists) {
-//            sb.append(artist.getName()).append(", ");
-//        }
-        return sb.toString();
+        StringBuffer artistList = new StringBuffer("[");
+        for (Artist artist : artists) {
+            artistList.append(artist.getName()).append(", ");
+        }
+        artistList.replace(artistList.length() -2, artistList.length(), "]");
+        return artistList.toString();
     }
 }

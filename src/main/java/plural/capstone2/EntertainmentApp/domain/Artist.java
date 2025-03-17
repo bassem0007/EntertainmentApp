@@ -9,7 +9,8 @@ import plural.capstone2.EntertainmentApp.utils.TrackLister;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 public class Artist {
 
     @Id
@@ -22,7 +23,7 @@ public class Artist {
     private int yearFounded;
     private List<Track> tracks;
 
-    public Artist(@NonNull String name, ArtistType artistType, String biography, String nationality, int yearFounded) {
+    public Artist(String name, ArtistType artistType, String biography, String nationality, int yearFounded) {
         this.name = name;
         this.artistType = artistType;
         this.genres = new ArrayList<>();

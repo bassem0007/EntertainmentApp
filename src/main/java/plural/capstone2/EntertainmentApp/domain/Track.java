@@ -10,7 +10,8 @@ import plural.capstone2.EntertainmentApp.utils.TimeFormatter;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 public class Track {
 
     @Id

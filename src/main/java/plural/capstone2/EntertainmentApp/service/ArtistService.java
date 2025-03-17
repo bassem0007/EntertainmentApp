@@ -12,7 +12,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ArtistService {
 
-    private BaseDAO<Artist> artistDAO;
+    private final BaseDAO<Artist> artistDAO;
 
     public Artist insertArtist(Artist artist) {
         return artistDAO.insert(artist);
@@ -32,32 +32,19 @@ public class ArtistService {
 
             return artistDAO.update(updatedArtist);
         }
-        throw new IllegalArgumentException("Artist not found");
+        else return false;
     }
 
-    public boolean deleteArtist(Artist artist) {
-        Optional<Artist> existingArtist = artistDAO.findById(artist.getId());
-        if (existingArtist.isPresent()) {
-            Artist deletedArtist = existingArtist.get();
-            return artistDAO.delete(deletedArtist);
-        }
-        throw new IllegalArgumentException("Artist not found");
+    public boolean deleteArtist(int id) {
+        Optional<Artist> existingArtist = artistDAO.findById(id);
+        return existingArtist.filter(artistDAO::delete).isPresent();
     }
 
     public Artist findById(int id) {
-        Optional<Artist> existingArtist = artistDAO.findById(id);
-        if (existingArtist.isPresent()) {
-            return existingArtist.get();
-        } else {
-            throw new IllegalArgumentException("Artist not found");
-        }
+        return artistDAO.findById(id).orElse(null);
     }
 
     public List<Artist> findAll() {
-        List<Artist> allArtists = artistDAO.findAll();
-        if (allArtists.isEmpty())
-            throw new IllegalArgumentException("No artists not found");
-        else
             return artistDAO.findAll();
     }
 

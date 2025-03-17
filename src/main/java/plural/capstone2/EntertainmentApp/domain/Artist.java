@@ -33,6 +33,10 @@ public class Artist {
         this.tracks = new ArrayList<>();
     }
 
+    public Artist() {
+
+    }
+
     @Override
     public String toString() {
         return "Artist{" +

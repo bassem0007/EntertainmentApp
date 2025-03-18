@@ -30,7 +30,7 @@ public class InMemoryTrackDAOTest {
         track2 = new Track("Sultans of Swing", 400, Genre.ROCK, List.of(artist2), 1982, 95);
 
         trackDAO.insert(track1);
-        
+        trackDAO.insert(track2);
     }
 
     @Test

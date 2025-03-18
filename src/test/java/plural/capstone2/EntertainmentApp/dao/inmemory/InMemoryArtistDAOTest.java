@@ -11,7 +11,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class InMemoryArtistDAOTest {
+public class InMemoryArtistDAOTest {
 
     private Artist artist1;
     private Artist artist2;

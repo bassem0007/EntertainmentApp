@@ -39,11 +39,27 @@ class ArtistServiceTest {
     }
 
     @Test
-    void insertArtist_shouldCallInsertOnceAndShouldInsertArtist() {
+    void insertArtist_shouldCallInsertAndFindByIdOnceAndShouldInsertArtist() {
         when(artistDAO.insert(artist)).thenReturn(artist);
-        Artist expectedArtist = artistService.insertArtist(artist);
+        when(artistDAO.findById(1)).thenReturn(Optional.of(artist));
+
+        Artist createdArtist = artistService.insertArtist(artist);
+
+        Artist returnedArtist = artistService.findArtistById(createdArtist.getId());
+
         verify(artistDAO, times(1)).insert(artist);
-        assertEquals(expectedArtist, artist);
+        verify(artistDAO, times(1)).findById(1);
+        assertEquals(artist, returnedArtist);
+    }
+
+    @Test
+    void insertArtist_shouldReturnNullIfArtistIsNullAndCallInsertOnce() {
+        when(artistDAO.insert(null)).thenReturn(null);
+
+        Artist createdArtist = artistService.insertArtist(null);
+
+        assertNull(createdArtist);
+        verify(artistDAO, times(1)).insert(null);
     }
 
     @Test
@@ -61,10 +77,14 @@ class ArtistServiceTest {
     }
 
     @Test
-    void updateArtist_shouldNotCallUpdateForNonExistentArtist() {
+    void updateArtist_shouldOnlyCallFindByIdOnceAndNotCallUpdateForNonExistentArtist() {
         artist.setId(2);
+        when(artistDAO.findById(2)).thenReturn(Optional.empty());
+
         boolean result = artistService.updateArtist(artist);
+
         assertFalse(result);
+        verify(artistDAO, times(1)).findById(artist.getId());
         verify(artistDAO, times(0)).update(artist);
     }
 
@@ -89,29 +109,34 @@ class ArtistServiceTest {
     }
 
     @Test
-    void findById_shouldCallFindByIdOnceAndShouldFindArtist() {
+    void findById_shouldCallFindByIdOnceAndShouldReturnArtist() {
         when(artistDAO.findById(artist.getId())).thenReturn(Optional.ofNullable(artist));
         Artist expectedArtist = artistService.findArtistById(artist.getId());
         verify(artistDAO, times(1)).findById(artist.getId());
-        assertAll(
-                () -> assertNotNull(expectedArtist),
-                () -> assertEquals(artist.getId(), expectedArtist.getId()),
-                () -> assertEquals(artist.getArtistType(), expectedArtist.getArtistType()),
-                () -> assertEquals(artist.getName(), expectedArtist.getName()),
-                () -> assertEquals(artist.getNationality(), expectedArtist.getNationality()),
-                () -> assertEquals(artist.getBiography(), expectedArtist.getBiography()),
-                () -> assertEquals(artist.getYearFounded(), expectedArtist.getYearFounded()),
-                () -> assertEquals(artist.getGenres(), expectedArtist.getGenres()),
-                () -> assertEquals(artist.getTracks(), expectedArtist.getTracks())
-        );
+        assertEquals(expectedArtist, artist);
+//        assertAll(
+//                () -> assertNotNull(expectedArtist),
+//                () -> assertEquals(artist.getId(), expectedArtist.getId()),
+//                () -> assertEquals(artist.getArtistType(), expectedArtist.getArtistType()),
+//                () -> assertEquals(artist.getName(), expectedArtist.getName()),
+//                () -> assertEquals(artist.getNationality(), expectedArtist.getNationality()),
+//                () -> assertEquals(artist.getBiography(), expectedArtist.getBiography()),
+//                () -> assertEquals(artist.getYearFounded(), expectedArtist.getYearFounded()),
+//                () -> assertEquals(artist.getGenres(), expectedArtist.getGenres()),
+//                () -> assertEquals(artist.getTracks(), expectedArtist.getTracks())
+//        );
     }
 
     @Test
     void findById_shouldCallFindByIdOnceAndReturnNullIfArtistDoesNotExist() {
         artist.setId(2);
-        artistService.findArtistById(artist.getId());
+        when(artistDAO.findById(2)).thenReturn(Optional.empty());
+
+        Artist expectedArtist = artistService.findArtistById(artist.getId());
+
+        assertNull(expectedArtist);
         verify(artistDAO, times(1)).findById(artist.getId());
-        assertNull(artistService.findArtistById(artist.getId()));
+
     }
 
     @Test
@@ -122,7 +147,7 @@ class ArtistServiceTest {
         assertAll(
                 () -> assertNotNull(expectedArtist),
                 () -> assertEquals(1, expectedArtist.size()),
-                () -> assertEquals(artist, expectedArtist.get(0))
+                () -> assertEquals(expectedArtist.get(0), artist)
         );
     }
 

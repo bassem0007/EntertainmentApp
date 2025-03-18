@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import plural.capstone2.EntertainmentApp.domain.Track;
-import plural.capstone2.EntertainmentApp.service.ArtistService;
 import plural.capstone2.EntertainmentApp.service.TrackService;
 
 import java.util.List;

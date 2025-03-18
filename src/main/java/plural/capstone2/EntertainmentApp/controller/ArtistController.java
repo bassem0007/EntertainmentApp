@@ -18,16 +18,17 @@ public class ArtistController {
 
     @GetMapping
     public ResponseEntity<List<Artist>> getArtists() {
-        return ResponseEntity.ok(artistService.findAll());
+        return ResponseEntity.ok(artistService.findAllArtists());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Artist> getArtistById(@PathVariable int id) {
-        return ResponseEntity.ok(artistService.findById(id));
+        Artist artist = artistService.findArtistById(id);
+        return artist != null ? ResponseEntity.ok(artist) : ResponseEntity.notFound().build();
     }
 
     @PostMapping
-    public ResponseEntity<Artist> addArtist(@RequestBody Artist artist) {
+    public ResponseEntity<Artist> insertArtist(@RequestBody Artist artist) {
         return ResponseEntity.ok(artistService.insertArtist(artist));
     }
 
@@ -42,12 +43,12 @@ public class ArtistController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteArtist(@PathVariable int id) {
         boolean result = artistService.deleteArtist(id);
-        return result ? ResponseEntity.accepted().build() : ResponseEntity.notFound().build();
+        return result ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/reset")
     public ResponseEntity<?> resetArtists() {
-        artistService.resetDataStore();
+        artistService.resetArtistDataStore();
         return ResponseEntity.noContent().build();
     }
 }

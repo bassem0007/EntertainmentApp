@@ -14,7 +14,4 @@ public interface BaseDAO<T> {
     Optional<T> findById(int id);
     List<T> findAll();
     void resetDataStore();
-    default List<T> findBy(Predicate<T> predicate) {
-        return findAll().stream().filter(predicate).collect(toList());
     }
-}

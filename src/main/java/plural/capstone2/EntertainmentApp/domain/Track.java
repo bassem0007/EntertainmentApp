@@ -14,7 +14,6 @@ import java.util.List;
 @Setter
 public class Track {
 
-    @Id
     private int id;
     private String title;
     private int durationSeconds;

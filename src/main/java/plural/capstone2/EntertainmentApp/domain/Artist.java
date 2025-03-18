@@ -13,7 +13,6 @@ import java.util.List;
 @Setter
 public class Artist {
 
-    @Id
     private int id;
     private String name;
     private ArtistType artistType;

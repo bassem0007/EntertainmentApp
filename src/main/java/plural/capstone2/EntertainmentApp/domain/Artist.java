@@ -1,7 +1,6 @@
 package plural.capstone2.EntertainmentApp.domain;
 
 import lombok.*;
-import org.springframework.data.annotation.Id;
 import plural.capstone2.EntertainmentApp.enums.ArtistType;
 import plural.capstone2.EntertainmentApp.enums.Genre;
 import plural.capstone2.EntertainmentApp.utils.TrackLister;

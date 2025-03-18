@@ -40,15 +40,15 @@ public class ArtistService {
         return existingArtist.filter(artistDAO::delete).isPresent();
     }
 
-    public Artist findById(int id) {
+    public Artist findArtistById(int id) {
         return artistDAO.findById(id).orElse(null);
     }
 
-    public List<Artist> findAll() {
+    public List<Artist> findAllArtists() {
             return artistDAO.findAll();
     }
 
-    public void resetDataStore() {
+    public void resetArtistDataStore() {
         artistDAO.resetDataStore();
     }
 }

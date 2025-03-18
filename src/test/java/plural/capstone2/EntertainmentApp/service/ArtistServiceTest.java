@@ -91,7 +91,7 @@ class ArtistServiceTest {
     @Test
     void findById_shouldCallFindByIdOnceAndShouldFindArtist() {
         when(artistDAO.findById(artist.getId())).thenReturn(Optional.ofNullable(artist));
-        Artist expectedArtist = artistService.findById(artist.getId());
+        Artist expectedArtist = artistService.findArtistById(artist.getId());
         verify(artistDAO, times(1)).findById(artist.getId());
         assertAll(
                 () -> assertNotNull(expectedArtist),
@@ -109,15 +109,15 @@ class ArtistServiceTest {
     @Test
     void findById_shouldCallFindByIdOnceAndReturnNullIfArtistDoesNotExist() {
         artist.setId(2);
-        artistService.findById(artist.getId());
+        artistService.findArtistById(artist.getId());
         verify(artistDAO, times(1)).findById(artist.getId());
-        assertNull(artistService.findById(artist.getId()));
+        assertNull(artistService.findArtistById(artist.getId()));
     }
 
     @Test
     void findAll_shouldCallFindAllOnceAndShouldReturnAllArtists() {
         when(artistDAO.findAll()).thenReturn(List.of(artist));
-        List<Artist> expectedArtist = artistService.findAll();
+        List<Artist> expectedArtist = artistService.findAllArtists();
         verify(artistDAO, times(1)).findAll();
         assertAll(
                 () -> assertNotNull(expectedArtist),
@@ -128,7 +128,7 @@ class ArtistServiceTest {
 
     @Test
     void resetDataStore() {
-        artistService.resetDataStore();
+        artistService.resetArtistDataStore();
         verify(artistDAO, times(1)).resetDataStore();
     }
 }

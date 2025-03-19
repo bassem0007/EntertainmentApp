@@ -29,6 +29,9 @@ public class Track {
         this.beatsPerMinute = beatsPerMinute;
     }
 
+    public Track() {
+    }
+
     @Override
     public String toString() {
         return "Track{" +

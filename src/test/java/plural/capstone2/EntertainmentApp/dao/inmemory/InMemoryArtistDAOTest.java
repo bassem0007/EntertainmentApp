@@ -23,8 +23,17 @@ public class InMemoryArtistDAOTest {
         artistDAO = new InMemoryArtistDAO();
         artistDAO.resetDataStore();
 
-        artist1 =  new Artist("Pink Floyd", ArtistType.GROUP,"One of the most successful and influential rock groups in history","British",1964);
-        artist2 = new Artist("Dire Straits", ArtistType.GROUP,"Emerged during the post-punk era in the late 70s","British",1978);
+        artist1 =  new Artist(
+                "Pink Floyd",
+                ArtistType.GROUP,
+                "One of the most successful and influential rock groups in history","British",
+                1964);
+        artist2 = new Artist(
+                "Dire Straits",
+                ArtistType.GROUP,
+                "Emerged during the post-punk era in the late 70s",
+                "British",
+                1978);
 
         artistDAO.insert(artist1);
         artistDAO.insert(artist2);
@@ -41,7 +50,11 @@ public class InMemoryArtistDAOTest {
 
     @Test
     void update_shouldUpdateArtist() {
-        Artist updatedArtist = new Artist("Dire Straits", ArtistType.GROUP,"Emerged during the post-punk era in the late 70s","British",1980);
+        Artist updatedArtist = new Artist("Dire Straits",
+                ArtistType.GROUP,
+                "Emerged during the post-punk era in the late 70s",
+                "British",
+                1980);
         updatedArtist.setId(2);
         boolean result = artistDAO.update(updatedArtist);
         Optional<Artist> newCourse = artistDAO.findById(artist2.getId());
@@ -54,7 +67,7 @@ public class InMemoryArtistDAOTest {
     }
 
     @Test
-    void updated_shouldNotUpdateArtistIfArtistIsNonExistent() {
+    void updated_shouldNotUpdateArtistIfArtistDoesNotExist() {
         Artist newArtist = new Artist();
         newArtist.setId(3);
         boolean result = artistDAO.update(newArtist);
@@ -67,13 +80,14 @@ public class InMemoryArtistDAOTest {
         boolean results = artistDAO.delete(artist1);
         assertAll(
                 () -> assertTrue(results),
+                () -> assertFalse(artistDAO.findById(1).isPresent()),
                 () -> assertEquals(1, artistDAO.findAll().size()),
                 () -> assertEquals(artist2, artistDAO.findAll().get(0))
         );
     }
 
     @Test
-    void delete_shouldNotDeleteArtistIfArtistIsNonExistent() {
+    void delete_shouldNotDeleteAnyArtistIfArtistDoesNotExist() {
         Artist newArtist = new Artist();
         boolean results = artistDAO.delete(newArtist);
         assertAll(
@@ -107,5 +121,7 @@ public class InMemoryArtistDAOTest {
 
     @Test
     void resetDataStore() {
+        artistDAO.resetDataStore();
+        assertEquals(0, artistDAO.findAll().size());
     }
 }

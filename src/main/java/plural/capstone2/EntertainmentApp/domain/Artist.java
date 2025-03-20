@@ -19,7 +19,7 @@ public class Artist {
     private String biography;
     private String nationality;
     private int yearFounded;
-    private List<Track> tracks;
+    private List<Track> tracks = new ArrayList<>();
 
     public Artist(String name, ArtistType artistType, String biography, String nationality, int yearFounded) {
         this.name = name;

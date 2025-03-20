@@ -3,9 +3,13 @@ package plural.capstone2.EntertainmentApp.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import plural.capstone2.EntertainmentApp.DTO.ArtistWithTracksDTO;
 import plural.capstone2.EntertainmentApp.domain.Artist;
 import plural.capstone2.EntertainmentApp.service.ArtistService;
+import plural.capstone2.EntertainmentApp.service.ArtistTrackService;
+import plural.capstone2.EntertainmentApp.service.MappingService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,16 +19,28 @@ import java.util.Objects;
 public class ArtistController {
 
     private final ArtistService artistService;
+    private final MappingService mappingService;
+    private final ArtistTrackService artistTrackService;
 
     @GetMapping
-    public ResponseEntity<List<Artist>> getArtists() {
-        return ResponseEntity.ok(artistService.findAllArtists());
+    public ResponseEntity<List<ArtistWithTracksDTO>> getArtists() {
+        List<Artist> artists = artistService.findAllArtists();
+        List<ArtistWithTracksDTO> artistWithTracksDTOs = new ArrayList<>();
+        for (Artist artist : artists) {
+            ArtistWithTracksDTO artistWithTracksDTO;
+            artistWithTracksDTO = mappingService.mapArtistWithTracksDTO(artist);
+            artistWithTracksDTOs.add(artistWithTracksDTO);
+        }
+        return ResponseEntity.ok(artistWithTracksDTOs);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Artist> getArtistById(@PathVariable int id) {
+    public ResponseEntity<ArtistWithTracksDTO> getArtistById(@PathVariable int id) {
         Artist artist = artistService.findArtistById(id);
-        return artist != null ? ResponseEntity.ok(artist) : ResponseEntity.notFound().build();
+        if (artist == null) { return ResponseEntity.notFound().build(); }
+
+        ArtistWithTracksDTO artistWithTracksDTO = mappingService.mapArtistWithTracksDTO(artist);
+        return ResponseEntity.ok(artistWithTracksDTO);
     }
 
     @PostMapping
@@ -42,8 +58,9 @@ public class ArtistController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteArtist(@PathVariable int id) {
+        artistTrackService.removeArtistFromAllTracks(id);
         boolean result = artistService.deleteArtist(id);
-        return result ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+        return (result) ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/reset")
@@ -51,4 +68,5 @@ public class ArtistController {
         artistService.resetArtistDataStore();
         return ResponseEntity.noContent().build();
     }
+
 }

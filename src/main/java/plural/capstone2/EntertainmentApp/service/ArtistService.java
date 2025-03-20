@@ -51,4 +51,18 @@ public class ArtistService {
     public void resetArtistDataStore() {
         artistDAO.resetDataStore();
     }
+
+//    public List<ArtistDTO> getArtistsForTrack (int trackId) {
+//        Track track = trackDAO.findById(trackId).get();
+//        if (track == null) return null;
+//
+//        List<ArtistDTO> artistDTOs = new ArrayList<>();
+//        for (Artist artist : track.getArtists()) {
+//            ArtistDTO artistDTO = new ArtistDTO();
+//            artistDTO.setId(artist.getId());
+//            artistDTO.setName(artist.getName());
+//            artistDTOs.add(artistDTO);
+//        }
+//        return artistDTOs;
+//    }
 }

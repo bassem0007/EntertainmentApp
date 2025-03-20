@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import plural.capstone2.EntertainmentApp.DTO.TrackWithArtistsDTO;
 import plural.capstone2.EntertainmentApp.domain.Track;
+import plural.capstone2.EntertainmentApp.service.ArtistTrackService;
 import plural.capstone2.EntertainmentApp.service.MappingService;
 import plural.capstone2.EntertainmentApp.service.TrackService;
 
@@ -18,6 +19,7 @@ public class TrackController {
 
     private final TrackService trackService;
     private final MappingService mappingService;
+    private final ArtistTrackService artistTrackService;
 
     @GetMapping
     public ResponseEntity<List<TrackWithArtistsDTO>> findAllTracks() {
@@ -54,8 +56,9 @@ public class TrackController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Track> deleteTrack(@PathVariable int id) {
+        artistTrackService.removeTrackFromAllArtists(id);
         boolean result = trackService.deleteTrack(id);
-        return result ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+        return (result) ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping

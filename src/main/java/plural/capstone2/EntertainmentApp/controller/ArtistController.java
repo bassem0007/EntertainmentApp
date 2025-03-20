@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import plural.capstone2.EntertainmentApp.DTO.ArtistWithTracksDTO;
 import plural.capstone2.EntertainmentApp.domain.Artist;
 import plural.capstone2.EntertainmentApp.service.ArtistService;
+import plural.capstone2.EntertainmentApp.service.ArtistTrackService;
 import plural.capstone2.EntertainmentApp.service.MappingService;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class ArtistController {
 
     private final ArtistService artistService;
     private final MappingService mappingService;
+    private final ArtistTrackService artistTrackService;
 
     @GetMapping
     public ResponseEntity<List<ArtistWithTracksDTO>> getArtists() {
@@ -56,8 +58,9 @@ public class ArtistController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteArtist(@PathVariable int id) {
+        artistTrackService.removeArtistFromAllTracks(id);
         boolean result = artistService.deleteArtist(id);
-        return result ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+        return (result) ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/reset")

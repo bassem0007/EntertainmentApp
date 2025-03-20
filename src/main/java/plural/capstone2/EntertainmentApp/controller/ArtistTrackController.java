@@ -34,9 +34,9 @@ public class ArtistTrackController {
     }
 
     @DeleteMapping("/artists/{artistId}/tracks/{trackId}")
-    public ResponseEntity<Artist> removeTrackFromArtist(@PathVariable int artistId, @PathVariable int trackId) {
-        Artist updatedArtist = artistTrackService.removeTrackFromArtist(artistId, trackId);
-        return updatedArtist != null? ResponseEntity.ok(updatedArtist) : ResponseEntity.notFound().build();
+    public ResponseEntity<?> removeTrackFromArtist(@PathVariable int artistId, @PathVariable int trackId) {
+        boolean result = artistTrackService.removeTrackFromArtist(artistId, trackId);
+        return result ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }
 
     @PostMapping("/tracks/{trackId}/artists/{artistId}")
@@ -51,15 +51,9 @@ public class ArtistTrackController {
     }
 
     @DeleteMapping("/tracks/{trackId}/artists/{artistId}")
-    public ResponseEntity<Track> removeArtistFromTrack(@PathVariable int trackId, @PathVariable int artistId) {
-        Track updatedTrack = artistTrackService.removeArtistFromTrack(trackId, artistId);
-        return updatedTrack != null? ResponseEntity.ok(updatedTrack) : ResponseEntity.notFound().build();
+    public ResponseEntity<?> removeArtistFromTrack(@PathVariable int trackId, @PathVariable int artistId) {
+        boolean result = artistTrackService.removeArtistFromTrack(trackId, artistId);
+        return result ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }
-
-//    @GetMapping("/tracks/{trackId}/artists")
-//    public ResponseEntity<List<ArtistDTO>> getArtistsForTrack(@PathVariable int trackId) {
-//        List<ArtistDTO> artistDTOs = artistService.getArtistsForTrack(trackId);
-//        return artistDTOs != null? ResponseEntity.ok(artistDTOs) : ResponseEntity.notFound().build();
-//    }
 
 }

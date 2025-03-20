@@ -2,6 +2,7 @@ package plural.capstone2.EntertainmentApp.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import plural.capstone2.EntertainmentApp.dao.inmemory.InMemoryArtistDAO;
 import plural.capstone2.EntertainmentApp.dao.inmemory.InMemoryTrackDAO;
 import plural.capstone2.EntertainmentApp.domain.Artist;
@@ -31,7 +32,7 @@ public class ArtistTrackService {
         return false;
     }
 
-    public Artist removeTrackFromArtist(int artistId, int trackId) {
+    public boolean removeTrackFromArtist(int artistId, int trackId) {
         Artist artist = artistDAO.findById(artistId).orElse(null);
         Track track = trackDAO.findById(trackId).orElse(null);
 
@@ -42,9 +43,9 @@ public class ArtistTrackService {
             artistDAO.update(artist);
             trackDAO.update(track);
 
-            return artist;
+            return true;
         }
-        return null;
+        return false;
     }
 
     public boolean addArtistToTrack(int trackId, int artistId) {
@@ -63,7 +64,7 @@ public class ArtistTrackService {
         return false;
     }
 
-    public Track removeArtistFromTrack(int trackId, int artistId) {
+    public boolean removeArtistFromTrack(int trackId, int artistId) {
         Track track = trackDAO.findById(trackId).orElse(null);
         Artist artist = artistDAO.findById(artistId).orElse(null);
 
@@ -74,8 +75,32 @@ public class ArtistTrackService {
             trackDAO.update(track);
             artistDAO.update(artist);
 
-            return track;
+            return true;
         }
-        return null;
+        return false;
+    }
+
+    public void removeTrackFromAllArtists(@PathVariable int trackId) {
+        Track track = trackDAO.findById(trackId).orElse(null);
+        if (track != null) {
+            for (Artist artist : track.getArtists()) {
+                artist.getTracks().remove(track);
+
+                trackDAO.update(track);
+                artistDAO.update(artist);
+            }
+        }
+    }
+
+    public void removeArtistFromAllTracks(@PathVariable int artistId) {
+        Artist artist = artistDAO.findById(artistId).orElse(null);
+        if (artist != null) {
+            for (Track track : artist.getTracks()) {
+                track.getArtists().remove(artist);
+
+                trackDAO.update(track);
+                artistDAO.update(artist);
+            }
+        }
     }
 }

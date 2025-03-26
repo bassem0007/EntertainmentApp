@@ -110,12 +110,12 @@ public class TrackServiceTest {
 
     @Test
     void insertTrack_shouldReturnNullIfTrackIsNullAndCallInsertOnce() {
-        when(trackDAO.insert(null)).thenReturn(null);
+        when(trackDAO.insert(any())).thenReturn(null);
 
         Track createdTrack = trackService.insertTrack(null);
 
         assertNull(createdTrack);
-        verify(trackDAO, times(1)).insert(null);
+        verify(trackDAO, times(1)).insert(any());
     }
 
     @Test

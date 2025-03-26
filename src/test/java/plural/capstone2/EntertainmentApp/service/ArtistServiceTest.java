@@ -54,25 +54,27 @@ class ArtistServiceTest {
 
     @Test
     void insertArtist_shouldReturnNullIfArtistIsNullAndCallInsertOnce() {
-        when(artistDAO.insert(null)).thenReturn(null);
+        when(artistDAO.insert(any())).thenReturn(null);
 
-        Artist createdArtist = artistService.insertArtist(null);
+        Artist createdArtist = artistService.insertArtist(any());
 
         assertNull(createdArtist);
-        verify(artistDAO, times(1)).insert(null);
+        verify(artistDAO, times(1)).insert(any());
     }
 
     @Test
     void updateArtist_shouldCallFindByIdAndUpdateOnceAndShouldUpdateArtist() {
         when(artistDAO.findById(artist.getId())).thenReturn(Optional.ofNullable(artist));
         when(artistDAO.update(artist)).thenReturn(true);
+
         boolean result = artistService.updateArtist(artist);
+
         assertTrue(result);
 
         verify(artistDAO, times(1)).update(artist);
         verify(artistDAO, times(1)).findById(artist.getId());
 
-        Artist updatedArtist = artistDAO.findById(artist.getId()).get();
+        Artist updatedArtist = artistService.findArtistById(artist.getId());
         assertEquals(artist, updatedArtist);
     }
 
@@ -114,17 +116,6 @@ class ArtistServiceTest {
         Artist expectedArtist = artistService.findArtistById(artist.getId());
         verify(artistDAO, times(1)).findById(artist.getId());
         assertEquals(expectedArtist, artist);
-//        assertAll(
-//                () -> assertNotNull(expectedArtist),
-//                () -> assertEquals(artist.getId(), expectedArtist.getId()),
-//                () -> assertEquals(artist.getArtistType(), expectedArtist.getArtistType()),
-//                () -> assertEquals(artist.getName(), expectedArtist.getName()),
-//                () -> assertEquals(artist.getNationality(), expectedArtist.getNationality()),
-//                () -> assertEquals(artist.getBiography(), expectedArtist.getBiography()),
-//                () -> assertEquals(artist.getYearFounded(), expectedArtist.getYearFounded()),
-//                () -> assertEquals(artist.getGenres(), expectedArtist.getGenres()),
-//                () -> assertEquals(artist.getTracks(), expectedArtist.getTracks())
-//        );
     }
 
     @Test

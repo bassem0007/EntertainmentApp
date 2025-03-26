@@ -1,31 +1,39 @@
 package plural.capstone2.EntertainmentApp.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
+import plural.capstone2.EntertainmentApp.dao.BaseDAO;
 import plural.capstone2.EntertainmentApp.dao.inmemory.InMemoryArtistDAO;
 import plural.capstone2.EntertainmentApp.dao.inmemory.InMemoryTrackDAO;
 import plural.capstone2.EntertainmentApp.domain.Artist;
 import plural.capstone2.EntertainmentApp.domain.Track;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class ArtistTrackService {
 
-    private final InMemoryArtistDAO artistDAO;
+//    private final BaseDAO<Artist> artistDAO;
+//
+//    private final BaseDAO<Track> trackDAO;
 
+
+    private final InMemoryArtistDAO artistDAO;
     private final InMemoryTrackDAO trackDAO;
 
     public boolean addTrackToArtist(int artistId, int trackId) {
-        Artist artist = artistDAO.findById(artistId).orElse(null);
-        Track track = trackDAO.findById(trackId).orElse(null);
+        Optional<Artist> artist = artistDAO.findById(artistId);
+        Optional<Track> track = trackDAO.findById(trackId);
 
-        if (artist != null && track != null) {
-            artist.getTracks().add(track);
-            track.getArtists().add(artist);
+        if (artist.isPresent() && track.isPresent()) {
+            artist.get().getTracks().add(track.get());
+            track.get().getArtists().add(artist.get());
 
-            artistDAO.update(artist);
-            trackDAO.update(track);
+            artistDAO.update(artist.get());
+            trackDAO.update(track.get());
 
             return true;
         }

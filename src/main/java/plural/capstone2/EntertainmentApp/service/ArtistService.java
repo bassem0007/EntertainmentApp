@@ -1,6 +1,7 @@
 package plural.capstone2.EntertainmentApp.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import plural.capstone2.EntertainmentApp.dao.BaseDAO;
 import plural.capstone2.EntertainmentApp.domain.Artist;
@@ -12,6 +13,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ArtistService {
 
+//    private final BaseDAO<Artist> artistDAO;
+
+    @Autowired
     private final BaseDAO<Artist> artistDAO;
 
     public Artist insertArtist(Artist artist) {

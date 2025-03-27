@@ -60,7 +60,7 @@ public class ArtistController {
     public ResponseEntity<?> deleteArtist(@PathVariable int id) {
         artistTrackService.removeArtistFromAllTracks(id);
         boolean result = artistService.deleteArtist(id);
-        return (result) ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+        return (result) ? ResponseEntity.accepted().build() : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/reset")

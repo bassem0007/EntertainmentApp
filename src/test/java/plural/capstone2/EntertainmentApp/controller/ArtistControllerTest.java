@@ -26,7 +26,7 @@ class ArtistControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-    
+
     @Autowired
     private MockMvc mockMvc;
 

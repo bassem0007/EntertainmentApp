@@ -27,8 +27,10 @@ public class InMemoryTrackDAOTest {
         Artist artist1 = new Artist();
         Artist artist2 = new Artist();
 
-        track1 = new Track("High Hopes",500, Genre.ROCK, List.of(artist1),1988,85);
-        track2 = new Track("Sultans of Swing", 400, Genre.ROCK, List.of(artist2), 1982, 95);
+        track1 = new Track("High Hopes",500, Genre.ROCK,1988,85);
+        track1.setArtists(List.of(artist1));
+        track2 = new Track("Sultans of Swing", 400, Genre.ROCK,1982, 95);
+        track2.setArtists(List.of(artist2));
 
         trackDAO.insert(track1);
         trackDAO.insert(track2);
@@ -40,7 +42,6 @@ public class InMemoryTrackDAOTest {
                 "High Hopes",
                 600,
                 Genre.ROCK,
-                null,
                 1988,
                 85
         );

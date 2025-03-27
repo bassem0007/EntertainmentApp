@@ -1,7 +1,6 @@
 package plural.capstone2.EntertainmentApp.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import plural.capstone2.EntertainmentApp.dao.BaseDAO;
 import plural.capstone2.EntertainmentApp.domain.Artist;
@@ -13,9 +12,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ArtistService {
 
-//    private final BaseDAO<Artist> artistDAO;
-
-    @Autowired
     private final BaseDAO<Artist> artistDAO;
 
     public Artist insertArtist(Artist artist) {
@@ -56,17 +52,4 @@ public class ArtistService {
         artistDAO.resetDataStore();
     }
 
-//    public List<ArtistDTO> getArtistsForTrack (int trackId) {
-//        Track track = trackDAO.findById(trackId).get();
-//        if (track == null) return null;
-//
-//        List<ArtistDTO> artistDTOs = new ArrayList<>();
-//        for (Artist artist : track.getArtists()) {
-//            ArtistDTO artistDTO = new ArtistDTO();
-//            artistDTO.setId(artist.getId());
-//            artistDTO.setName(artist.getName());
-//            artistDTOs.add(artistDTO);
-//        }
-//        return artistDTOs;
-//    }
 }

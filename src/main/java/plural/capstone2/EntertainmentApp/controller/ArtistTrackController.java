@@ -41,7 +41,7 @@ public class ArtistTrackController {
 
     @PostMapping("/tracks/{trackId}/artists/{artistId}")
     public ResponseEntity<TrackDTO> addArtistToTrack(@PathVariable int trackId, @PathVariable int artistId) {
-        boolean result = artistTrackService.addArtistToTrack(trackId, artistId);
+        boolean result = artistTrackService.addTrackToArtist(trackId, artistId);
         Track track = trackService.findTrackById(trackId);
         if (result) {
             TrackDTO trackDTO = mappingService.mapTrackToDTO(track);
@@ -52,7 +52,7 @@ public class ArtistTrackController {
 
     @DeleteMapping("/tracks/{trackId}/artists/{artistId}")
     public ResponseEntity<?> removeArtistFromTrack(@PathVariable int trackId, @PathVariable int artistId) {
-        boolean result = artistTrackService.removeArtistFromTrack(trackId, artistId);
+        boolean result = artistTrackService.removeTrackFromArtist(trackId, artistId);
         return result ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }
 

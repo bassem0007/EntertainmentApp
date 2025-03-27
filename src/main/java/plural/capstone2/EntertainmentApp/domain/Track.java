@@ -21,11 +21,11 @@ public class Track {
     private int beatsPerMinute;
     private List<Artist> artists = new ArrayList<>();
 
-    public Track(String title, int durationSeconds, Genre genre, List<Artist> artists, int yearReleased, int beatsPerMinute) {
+    public Track(String title, int durationSeconds, Genre genre, int yearReleased, int beatsPerMinute) {
         this.title = title;
         this.durationSeconds = durationSeconds;
         this.genre = genre;
-        this.artists = artists;
+        this.artists = new ArrayList<>();
         this.yearReleased = yearReleased;
         this.beatsPerMinute = beatsPerMinute;
     }

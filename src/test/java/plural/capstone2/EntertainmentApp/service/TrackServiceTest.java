@@ -30,13 +30,11 @@ public class TrackServiceTest {
 
     @BeforeEach
     void setUp() {
-        Artist artist = new Artist();
 
          track = new Track(
                 "High Hopes",
                 500,
                 Genre.ROCK,
-                List.of(artist),
                 1988,
                 85);
 

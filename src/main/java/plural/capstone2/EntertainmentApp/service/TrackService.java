@@ -1,7 +1,6 @@
 package plural.capstone2.EntertainmentApp.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import plural.capstone2.EntertainmentApp.dao.BaseDAO;
 import plural.capstone2.EntertainmentApp.domain.Track;
@@ -13,9 +12,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TrackService {
 
-//    private final BaseDAO<Track> trackDAO;
-
-    @Autowired
     private final BaseDAO<Track> trackDAO;
 
     public boolean updateTrack(Track track) {

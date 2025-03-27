@@ -1,5 +1,6 @@
 package plural.capstone2.EntertainmentApp.controller;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -51,6 +52,12 @@ class ArtistTrackControllerTest {
 
          track = new Track("High Hopes",500, Genre.ROCK,1988,85);
          track = trackService.insertTrack(track);
+    }
+
+    @AfterEach
+    void tearDown() {
+        trackService.resetTrackDataStore();
+        artistService.resetArtistDataStore();
     }
 
     @Test

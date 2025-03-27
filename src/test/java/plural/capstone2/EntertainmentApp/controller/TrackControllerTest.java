@@ -1,6 +1,7 @@
 package plural.capstone2.EntertainmentApp.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,8 @@ import plural.capstone2.EntertainmentApp.domain.Track;
 import plural.capstone2.EntertainmentApp.enums.Genre;
 import plural.capstone2.EntertainmentApp.service.TrackService;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -37,6 +40,11 @@ class TrackControllerTest {
     void setUp() {
         track = new Track("High Hopes",500, Genre.ROCK,1988,85);
         trackService.insertTrack(track);
+    }
+
+    @AfterEach
+    void tearDown() {
+        trackService.resetTrackDataStore();
     }
 
     @Test
@@ -64,7 +72,7 @@ class TrackControllerTest {
     }
 
     @Test
-    void updateTrack() throws Exception {
+    void updateTrack_shouldReturnStatusOkWhenAllParametersMatch() throws Exception {
         track.setDurationSeconds(600);
         mockMvc.perform(put("/main/tracks/" + track.getId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -74,7 +82,30 @@ class TrackControllerTest {
     }
 
     @Test
+    void updateTrack_shouldReturnStatusBadWhenIdsDoNotMatch() throws Exception {
+        mockMvc.perform(put("/main/tracks/" + 2)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(track)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void updateTrack_shouldInsertTrackWhenIdIsZero() throws Exception {
+        Track track1 = new Track();
+        mockMvc.perform(put("/main/tracks/" + 0)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(track1)))
+                .andExpect(status().isOk());
+
+        Track insertedTrack = trackService.findTrackById(1);
+
+        assertNotNull(insertedTrack);
+        assertEquals(insertedTrack.getTitle(), trackService.findTrackById(1).getTitle());
+    }
+
+    @Test
     void deleteTrack() throws Exception {
+        trackService.insertTrack(track);
         mockMvc.perform(delete("/main/tracks/" + track.getId()))
                 .andExpect(status().isAccepted());
 

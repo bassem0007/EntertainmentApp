@@ -2,6 +2,7 @@ package plural.capstone2.EntertainmentApp.DTO;
 
 import lombok.Getter;
 import lombok.Setter;
+import plural.capstone2.EntertainmentApp.enums.Genre;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public class TrackWithArtistsDTO {
     private int id;
     private String title;
     private int durationSeconds;
-//    private Genre genre;
+    private Genre genre;
     private int yearReleased;
     private int beatsPerMinute;
     private List<ArtistDTO> artists;

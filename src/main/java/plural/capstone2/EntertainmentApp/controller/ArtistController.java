@@ -52,6 +52,10 @@ public class ArtistController {
     public ResponseEntity<Artist> updateArtist(@PathVariable int id, @RequestBody Artist artist) {
         if (!Objects.equals(artist.getId(), id))
             return ResponseEntity.badRequest().build();
+
+        if (id == 0)
+            insertArtist(artist);
+
         boolean result = artistService.updateArtist(artist);
         return result ? ResponseEntity.ok(artist) : ResponseEntity.notFound().build();
     }

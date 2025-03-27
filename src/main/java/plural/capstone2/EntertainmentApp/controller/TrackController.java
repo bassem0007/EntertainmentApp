@@ -58,10 +58,10 @@ public class TrackController {
     public ResponseEntity<Track> deleteTrack(@PathVariable int id) {
         artistTrackService.removeTrackFromAllArtists(id);
         boolean result = trackService.deleteTrack(id);
-        return (result) ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+        return (result) ? ResponseEntity.accepted().build() : ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping
+    @DeleteMapping("/reset")
     public ResponseEntity<?> resetTracks() {
         trackService.resetTrackDataStore();
         return ResponseEntity.noContent().build();

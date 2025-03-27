@@ -65,13 +65,14 @@ class ArtistTrackServiceTest {
     }
 
     @Test
-    void addTrackToArtist_shouldUpdateArtistWithTrack() {
+    void addTrackToArtist_shouldUpdateArtistWithTrackAndGenre() {
         when(artistDAO.findById(anyInt())).thenReturn(Optional.of(artist));
         when(trackDAO.findById(anyInt())).thenReturn(Optional.of(track));
 
         artistTrackService.addTrackToArtist(artist.getId(),track.getId());
 
         assertEquals(track, artist.getTracks().get(0));
+        assertEquals(1, artist.getGenres().size());
     }
 
     @Test
@@ -107,10 +108,11 @@ class ArtistTrackServiceTest {
         artistTrackService.removeTrackFromArtist(artist.getId(),track.getId());
 
         assertEquals(0, track.getArtists().size());
+
     }
 
     @Test
-    void removeTrackFromArtist_shouldDeleteTrackFromArtist() {
+    void removeTrackFromArtist_shouldDeleteTrackFromArtistAndUpdateGenre() {
         when(artistDAO.findById(anyInt())).thenReturn(Optional.of(artist));
         when(trackDAO.findById(anyInt())).thenReturn(Optional.of(track));
 
@@ -118,10 +120,11 @@ class ArtistTrackServiceTest {
         artistTrackService.removeTrackFromArtist(artist.getId(),track.getId());
 
         assertEquals(0, artist.getTracks().size());
+        assertEquals(0, artist.getGenres().size());
     }
 
     @Test
-    void removeTrackFromAllArtists_shouldRemoveTrackFromAllArtists() {
+    void removeTrackFromAllArtists_shouldRemoveTrackFromAllArtistsAndUpdateGenre() {
         when(trackDAO.findById(anyInt())).thenReturn(Optional.of(track));
         when(artistDAO.findById(artist.getId())).thenReturn(Optional.of(artist));
         when(artistDAO.findById(artist2.getId())).thenReturn(Optional.of(artist2));
@@ -133,6 +136,8 @@ class ArtistTrackServiceTest {
 
         assertEquals(0, artist.getTracks().size());
         assertEquals(0, artist2.getTracks().size());
+        assertEquals(0, artist.getGenres().size());
+        assertEquals(0, artist2.getGenres().size());
     }
 
     @Test

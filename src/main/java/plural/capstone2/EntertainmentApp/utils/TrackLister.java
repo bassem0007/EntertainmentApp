@@ -9,7 +9,7 @@ public class TrackLister {
         if (tracks == null || tracks.isEmpty())
             return "[]";
 
-        StringBuffer trackList = new StringBuffer("[");
+        StringBuilder trackList = new StringBuilder("[");
         for (Track track : tracks) {
             trackList.append(track.getTitle()).append(", ");
         }

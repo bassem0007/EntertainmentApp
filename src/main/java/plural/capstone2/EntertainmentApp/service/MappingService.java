@@ -35,7 +35,7 @@ public class MappingService {
         artistWithTracksDTO.setId(artist.getId());
         artistWithTracksDTO.setName(artist.getName());
         artistWithTracksDTO.setArtistType(artist.getArtistType());
-//        artistWithTracksDTO.setGenres(artist.getGenres());
+        artistWithTracksDTO.setGenres(artist.getGenres());
         artistWithTracksDTO.setBiography(artist.getBiography());
         artistWithTracksDTO.setNationality(artist.getNationality());
         artistWithTracksDTO.setYearFounded(artist.getYearFounded());
@@ -55,7 +55,7 @@ public class MappingService {
         trackWithArtistsDTO.setId(track.getId());
         trackWithArtistsDTO.setTitle(track.getTitle());
         trackWithArtistsDTO.setDurationSeconds(track.getDurationSeconds());
-//        trackWithArtistsDTO.setGenre(track.getGenre());
+        trackWithArtistsDTO.setGenre(track.getGenre());
         trackWithArtistsDTO.setYearReleased(track.getYearReleased());
         trackWithArtistsDTO.setBeatsPerMinute(track.getBeatsPerMinute());
 

@@ -6,7 +6,9 @@ import plural.capstone2.EntertainmentApp.enums.Genre;
 import plural.capstone2.EntertainmentApp.utils.TrackLister;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -15,7 +17,7 @@ public class Artist {
     private int id;
     private String name;
     private ArtistType artistType;
-    private List<Genre> genres;
+    private Set<Genre> genres;
     private String biography;
     private String nationality;
     private int yearFounded;
@@ -24,15 +26,23 @@ public class Artist {
     public Artist(String name, ArtistType artistType, String biography, String nationality, int yearFounded) {
         this.name = name;
         this.artistType = artistType;
-        this.genres = new ArrayList<>();
+        this.genres = new HashSet<Genre>();
         this.biography = biography;
         this.nationality = nationality;
         this.yearFounded = yearFounded;
         this.tracks = new ArrayList<>();
     }
 
-    public Artist() {
+    public Artist() {}
 
+    public void updateGenres() {
+        Set<Genre> remainingGenres = new HashSet<>();
+
+        for(Track track : tracks) {
+            remainingGenres.add(track.getGenre());
+        }
+
+        genres.removeIf(genre -> !remainingGenres.contains(genre));
     }
 
     @Override

@@ -11,6 +11,7 @@ import plural.capstone2.EntertainmentApp.service.TrackService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/main/tracks")
@@ -49,7 +50,12 @@ public class TrackController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Track> updateTrack(@PathVariable int id, @RequestBody Track track) {
-        if (id != track.getId()) { return ResponseEntity.badRequest().build();}
+        if(!Objects.equals(id, track.getId()))
+            return ResponseEntity.badRequest().build();
+
+        if (id == 0)
+            insertTrack(track);
+
         boolean result = trackService.updateTrack(track);
         return result ? ResponseEntity.ok(track) : ResponseEntity.notFound().build();
     }

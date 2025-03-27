@@ -2,7 +2,6 @@ package plural.capstone2.EntertainmentApp.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 import plural.capstone2.EntertainmentApp.dao.inmemory.InMemoryArtistDAO;
 import plural.capstone2.EntertainmentApp.dao.inmemory.InMemoryTrackDAO;
 import plural.capstone2.EntertainmentApp.domain.Artist;
@@ -25,6 +24,10 @@ public class ArtistTrackService {
             artist.get().getTracks().add(track.get());
             track.get().getArtists().add(artist.get());
 
+            artist.get().getGenres().add(track.get().getGenre());
+
+            artist.get().updateGenres();
+
             artistDAO.update(artist.get());
             trackDAO.update(track.get());
 
@@ -41,6 +44,10 @@ public class ArtistTrackService {
             artist.getTracks().remove(track);
             track.getArtists().remove(artist);
 
+            artist.getGenres().remove(track.getGenre());
+
+            artist.updateGenres();
+
             artistDAO.update(artist);
             trackDAO.update(track);
 
@@ -49,11 +56,13 @@ public class ArtistTrackService {
         return false;
     }
 
-    public void removeTrackFromAllArtists(@PathVariable int trackId) {
+    public void removeTrackFromAllArtists(int trackId) {
         Track track = trackDAO.findById(trackId).orElse(null);
         if (track != null) {
             for (Artist artist : track.getArtists()) {
                 artist.getTracks().remove(track);
+
+                artist.updateGenres();
 
                 trackDAO.update(track);
                 artistDAO.update(artist);
@@ -61,7 +70,7 @@ public class ArtistTrackService {
         }
     }
 
-    public void removeArtistFromAllTracks(@PathVariable int artistId) {
+    public void removeArtistFromAllTracks(int artistId) {
         Artist artist = artistDAO.findById(artistId).orElse(null);
         if (artist != null) {
             for (Track track : artist.getTracks()) {

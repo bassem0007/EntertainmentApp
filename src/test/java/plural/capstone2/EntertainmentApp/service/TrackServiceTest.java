@@ -7,7 +7,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import plural.capstone2.EntertainmentApp.dao.inmemory.InMemoryTrackDAO;
-import plural.capstone2.EntertainmentApp.domain.Artist;
 import plural.capstone2.EntertainmentApp.domain.Track;
 import plural.capstone2.EntertainmentApp.enums.Genre;
 

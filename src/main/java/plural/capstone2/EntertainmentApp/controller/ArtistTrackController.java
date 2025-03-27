@@ -36,7 +36,7 @@ public class ArtistTrackController {
     @DeleteMapping("/artists/{artistId}/tracks/{trackId}")
     public ResponseEntity<?> removeTrackFromArtist(@PathVariable int artistId, @PathVariable int trackId) {
         boolean result = artistTrackService.removeTrackFromArtist(artistId, trackId);
-        return result ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+        return result ? ResponseEntity.accepted().build() : ResponseEntity.notFound().build();
     }
 
     @PostMapping("/tracks/{trackId}/artists/{artistId}")
@@ -53,7 +53,7 @@ public class ArtistTrackController {
     @DeleteMapping("/tracks/{trackId}/artists/{artistId}")
     public ResponseEntity<?> removeArtistFromTrack(@PathVariable int trackId, @PathVariable int artistId) {
         boolean result = artistTrackService.removeTrackFromArtist(trackId, artistId);
-        return result ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+        return result ? ResponseEntity.accepted().build() : ResponseEntity.notFound().build();
     }
 
 }

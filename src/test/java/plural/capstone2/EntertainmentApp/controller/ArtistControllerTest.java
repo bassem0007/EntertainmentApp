@@ -1,6 +1,7 @@
 package plural.capstone2.EntertainmentApp.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Tag("integration")
 class ArtistControllerTest {
 
+    private Artist artist;
+
     @Autowired
     private ArtistService artistService;
 
@@ -29,6 +32,16 @@ class ArtistControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @BeforeEach
+    void setUp() {
+        artist = new Artist(
+                "Pink Floyd",
+                ArtistType.GROUP,
+                "One of the most successful and influential rock groups in history",
+                "British",
+                1964);
+    }
 
     @Test
     void getArtists() throws Exception {
@@ -39,13 +52,6 @@ class ArtistControllerTest {
 
     @Test
     void getArtistById() throws Exception {
-        Artist artist =  new Artist(
-                "Pink Floyd",
-                ArtistType.GROUP,
-                "One of the most successful and influential rock groups in history",
-                "British",
-                1964);
-
         artist = artistService.insertArtist(artist);
         mockMvc.perform(MockMvcRequestBuilders.get("/main/artists/" + artist.getId()))
                 .andExpect(status().isOk())
@@ -55,12 +61,6 @@ class ArtistControllerTest {
 
     @Test
     void insertArtist() throws Exception {
-        Artist artist =  new Artist(
-                "Pink Floyd",
-                ArtistType.GROUP,
-                "One of the most successful and influential rock groups in history",
-                "British",
-                1964);
         mockMvc.perform(post("/main/artists")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(artist)))
@@ -70,12 +70,6 @@ class ArtistControllerTest {
 
     @Test
     void updateArtist() throws Exception {
-        Artist artist =  new Artist(
-                "Pink Floyd",
-                ArtistType.GROUP,
-                "One of the most successful and influential rock groups in history",
-                "British",
-                1964);
         artistService.insertArtist(artist);
         artist.setYearFounded(1960);
 
@@ -89,12 +83,6 @@ class ArtistControllerTest {
 
     @Test
     void deleteArtist() throws Exception {
-        Artist artist =  new Artist(
-                "Pink Floyd",
-                ArtistType.GROUP,
-                "One of the most successful and influential rock groups in history",
-                "British",
-                1964);
         artistService.insertArtist(artist);
 
         mockMvc.perform(delete("/main/artists/" + artist.getId()))
@@ -106,15 +94,10 @@ class ArtistControllerTest {
 
     @Test
     void resetArtists() throws Exception {
-        Artist artist =  new Artist(
-                "Pink Floyd",
-                ArtistType.GROUP,
-                "One of the most successful and influential rock groups in history",
-                "British",
-                1964);
         artistService.insertArtist(artist);
 
         mockMvc.perform(delete("/main/artists/reset"))
                 .andExpect(status().isNoContent());
     }
+
 }

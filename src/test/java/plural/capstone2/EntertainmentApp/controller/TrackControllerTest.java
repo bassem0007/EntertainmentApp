@@ -1,6 +1,7 @@
 package plural.capstone2.EntertainmentApp.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Tag("integration")
 class TrackControllerTest {
 
+    private Track track;
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -29,6 +32,12 @@ class TrackControllerTest {
 
     @Autowired
     private TrackService trackService;
+
+    @BeforeEach
+    void setUp() {
+        track = new Track("High Hopes",500, Genre.ROCK,1988,85);
+        trackService.insertTrack(track);
+    }
 
     @Test
     void findAllTracks() throws Exception {
@@ -39,9 +48,6 @@ class TrackControllerTest {
 
     @Test
     void findTrackById() throws Exception {
-        Track track = new Track("High Hopes",500, Genre.ROCK,1988,85);
-        trackService.insertTrack(track);
-
         mockMvc.perform(MockMvcRequestBuilders.get("/main/tracks/" + track.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -50,9 +56,6 @@ class TrackControllerTest {
 
     @Test
     void insertTrack() throws Exception {
-        Track track = new Track("High Hopes",500, Genre.ROCK,1988,85);
-        trackService.insertTrack(track);
-
         mockMvc.perform(post("/main/tracks")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(track)))
@@ -62,8 +65,6 @@ class TrackControllerTest {
 
     @Test
     void updateTrack() throws Exception {
-        Track track = new Track("High Hopes",500, Genre.ROCK,1988,85);
-        trackService.insertTrack(track);
         track.setDurationSeconds(600);
         mockMvc.perform(put("/main/tracks/" + track.getId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -74,8 +75,6 @@ class TrackControllerTest {
 
     @Test
     void deleteTrack() throws Exception {
-        Track track = new Track("High Hopes",500, Genre.ROCK,1988,85);
-        trackService.insertTrack(track);
         mockMvc.perform(delete("/main/tracks/" + track.getId()))
                 .andExpect(status().isAccepted());
 
@@ -85,8 +84,6 @@ class TrackControllerTest {
 
     @Test
     void resetTracks() throws Exception {
-        Track track = new Track("High Hopes",500, Genre.ROCK,1988,85);
-        trackService.insertTrack(track);
         mockMvc.perform(delete("/main/tracks/reset"))
                 .andExpect(status().isNoContent());
     }

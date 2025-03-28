@@ -16,17 +16,17 @@ public class TrackService {
 
     public boolean updateTrack(Track track) {
         Optional<Track> existingTrack = trackDAO.findById(track.getId());
-        return existingTrack.isPresent() && existingTrack
-                .map( t -> {
-                    t.setTitle(track.getTitle());
-                    t.setDurationSeconds(track.getDurationSeconds());
-                    t.setGenre(track.getGenre());
-                    t.setArtists(track.getArtists());
-                    t.setYearReleased(track.getYearReleased());
-                    t.setBeatsPerMinute(track.getBeatsPerMinute());
-                    return trackDAO.update(t);
-        })
-                .orElse(false);
+        if (existingTrack.isPresent()) {
+            Track updatedTrack = existingTrack.get();
+            updatedTrack.setTitle(track.getTitle());
+            updatedTrack.setDurationSeconds(track.getDurationSeconds());
+            updatedTrack.setGenre(track.getGenre());
+            updatedTrack.setYearReleased(track.getYearReleased());
+            updatedTrack.setBeatsPerMinute(track.getBeatsPerMinute());
+
+            return trackDAO.update(updatedTrack);
+        }
+        else return false;
     }
 
     public boolean deleteTrack(int id) {

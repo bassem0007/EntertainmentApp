@@ -9,7 +9,7 @@ public class ArtistLister {
         if (artists == null || artists.isEmpty())
             return "[]";
 
-        StringBuffer artistList = new StringBuffer("[");
+        StringBuilder artistList = new StringBuilder("[");
         for (Artist artist : artists) {
             artistList.append(artist.getName()).append(", ");
         }

@@ -24,11 +24,9 @@ public class ArtistService {
             Artist updatedArtist = existingArtist.get();
             updatedArtist.setName(artist.getName());
             updatedArtist.setArtistType(artist.getArtistType());
-            updatedArtist.setGenres(artist.getGenres());
             updatedArtist.setBiography(artist.getBiography());
             updatedArtist.setNationality(artist.getNationality());
             updatedArtist.setYearFounded(artist.getYearFounded());
-            updatedArtist.setTracks(artist.getTracks());
 
             return artistDAO.update(updatedArtist);
         }

@@ -17,7 +17,7 @@ public class Artist {
     private int id;
     private String name;
     private ArtistType artistType;
-    private Set<Genre> genres;
+    private Set<Genre> genres = new HashSet<>();
     private String biography;
     private String nationality;
     private int yearFounded;
@@ -26,7 +26,7 @@ public class Artist {
     public Artist(String name, ArtistType artistType, String biography, String nationality, int yearFounded) {
         this.name = name;
         this.artistType = artistType;
-        this.genres = new HashSet<Genre>();
+        this.genres = new HashSet<>();
         this.biography = biography;
         this.nationality = nationality;
         this.yearFounded = yearFounded;
